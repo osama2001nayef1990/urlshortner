@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'is_active',
         'password',
     ];
 
@@ -42,4 +43,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function urls(){
+        return $this->hasMany(Url::class);
+    }
+    
+    public function activities(){
+        return $this->hasMany(Activity_log::class);
+    }
+
 }
