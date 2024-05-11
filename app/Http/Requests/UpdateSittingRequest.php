@@ -11,7 +11,7 @@ class UpdateSittingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateSittingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'max:255'],
+            'dark_logo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'light_logo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'dark_favicon'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'light_favicon'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'about_us' => ['required', 'max:1000'],
         ];
     }
 }

@@ -83,12 +83,45 @@
       </div>
     </li>
 
+
+
+  
+    <li class="nav-item menu-items">
+      <a class="nav-link" data-bs-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
+        <span class="menu-icon">
+          <i class="mdi mdi-laptop"></i>
+        </span>
+        <span class="menu-title">Users Section</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="users">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('admin.allusers')}}">Users</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{route('admin.alladmins')}}">Admins</a></li>
+        </ul>
+      </div>
+    </li>
+
+
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{route('admin.sittings.index')}}">
+        <span class="menu-icon">
+          <i class="mdi mdi-table-large"></i>
+        </span>
+        <span class="menu-title">Sittings</span>
+        <i class="menu-arrow"></i>
+      </a>
+    </li>
+
+
+
+
     <li class="nav-item menu-items">
       <a class="nav-link" href="">
         <span class="menu-icon">
           <i class="mdi mdi-chart-bar"></i>
         </span>
-        <span class="menu-title">Charts</span>
+        <span class="menu-title"></span>
         <i class="menu-arrow"></i>
       </a>
     </li>
@@ -115,15 +148,6 @@
           <i class="mdi mdi-playlist-play"></i>
         </span>
         <span class="menu-title">Form Elements</span>
-        <i class="menu-arrow"></i>
-      </a>
-    </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" href="../pages/tables/basic-table.html">
-        <span class="menu-icon">
-          <i class="mdi mdi-table-large"></i>
-        </span>
-        <span class="menu-title">Tables</span>
         <i class="menu-arrow"></i>
       </a>
     </li>

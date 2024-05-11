@@ -13,7 +13,7 @@ class SittingController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.sittings');
     }
 
     /**
@@ -53,7 +53,46 @@ class SittingController extends Controller
      */
     public function update(UpdateSittingRequest $request, Sitting $sitting)
     {
-        //
+        $input = $request->rules();
+
+        $inputs = $request->all();
+        $sitting->fill([
+            'name' => $inputs['name'],
+            'about_us' => $inputs['about_us']
+        ]);
+
+        if ($request->hasFile('dark_logo')) {
+            $file = $request->file('dark_logo');
+            $destinationPath = 'public/sittings/';
+            $originalFile = $file->getClientOriginalName();
+            $file->move($destinationPath, $originalFile);
+            $sitting->dark_logo = $originalFile;
+        }
+        if ($request->hasFile('light_logo')) {
+            $file = $request->file('light_logo');
+            $destinationPath = 'public/sittings/';
+            $originalFile = $file->getClientOriginalName();
+            $file->move($destinationPath, $originalFile);
+            $sitting->light_logo = $originalFile;
+        }
+        if ($request->hasFile('light_favicon')) {
+            $file = $request->file('light_favicon');
+            $destinationPath = 'public/sittings/';
+            $originalFile = $file->getClientOriginalName();
+            $file->move($destinationPath, $originalFile);
+            $sitting->light_favicon = $originalFile;
+        }
+        if ($request->hasFile('dark_favicon')) {
+            $file = $request->file('dark_favicon');
+            $destinationPath = 'public/sittings/';
+            $originalFile = $file->getClientOriginalName();
+            
+            $file->move($destinationPath, $originalFile);
+            $sitting->dark_favicon = $originalFile;
+        }
+
+        $sitting->save();
+        return back();
     }
 
     /**

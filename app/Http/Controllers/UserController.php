@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
-use App\Models\Admin;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +27,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdminRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -36,7 +35,7 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Admin $admin)
+    public function show(string $id)
     {
         //
     }
@@ -44,7 +43,7 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Admin $admin)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +51,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdminRequest $request, Admin $admin)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,32 +59,25 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Admin $admin)
+    public function destroy(string $id)
     {
         //
     }
+    
 
-    public function AllUsers(){
-        return view('admin.usersList');
-    }
-    public function AllAdmins(){
-        return view('admin.adminsList');
-    }
-
-    public function activate(Admin $admin)
+    public function activate(User $user)
     {
-      
-        $admin->is_active = !$admin->is_active;
-        $admin->save();
+        $user->is_active = !$user->is_active;
+        $user->save();
         Session::flash('success', 'User status updated successfully.');
         return back();
     }
-    public function deactivate(Admin $admin)
+    public function deactivate(User $user)
     {
-       
-        $admin->is_active = !$admin->is_active;
-        $admin->save();
+        $user->is_active = !$user->is_active;
+        $user->save();
         Session::flash('success', 'User status updated successfully.');
         return back();
     }
+
 }
