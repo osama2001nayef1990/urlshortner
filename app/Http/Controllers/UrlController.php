@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUrlRequest;
 use App\Http\Requests\UpdateUrlRequest;
 use App\Models\Url;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UrlController extends Controller
 {
@@ -13,7 +15,17 @@ class UrlController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::guard('admin')->check()) {
+            return view('Admin.allUrls');
+        } else {
+        }
+    }
+    public function MyUrls()
+    {
+        if (Auth::guard('admin')->check()) {
+            return view('Admin.myUrls');
+        } else {
+        }
     }
 
     /**
@@ -21,7 +33,10 @@ class UrlController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::guard('admin')->check()) {
+            return view('Admin.createUrl');
+        } else {
+        }
     }
 
     /**
@@ -29,7 +44,20 @@ class UrlController extends Controller
      */
     public function store(StoreUrlRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $url = new Url();
+
+        $url->origin_url = $request->url;
+        $url->admin_id = Auth::id();
+        $url->is_active = true;
+        $url->shortened_url_code = base_convert(mt_rand(0, PHP_INT_MAX), 10, 36);
+
+        $url->save();
+
+
+        Session::flash('success', 'Url Created Successfully.');
+
+        return back();
     }
 
     /**
@@ -51,9 +79,13 @@ class UrlController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUrlRequest $request, Url $url)
+    public function update(Url $url)
     {
-        //
+        $url->is_active = !$url->is_active;
+        $url->save();
+        Session::flash('success', 'Url status updated successfully.');
+        return back();
+
     }
 
     /**
@@ -61,6 +93,10 @@ class UrlController extends Controller
      */
     public function destroy(Url $url)
     {
-        //
+        $url->delete();
+
+        Session::flash('success', 'Url Deleted Successfully.');
+
+        return back();
     }
 }
