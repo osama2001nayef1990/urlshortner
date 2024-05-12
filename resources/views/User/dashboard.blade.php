@@ -1,7 +1,7 @@
-@extends('Admin.partials.master')
+@extends('User.partials.master')
 @section('content')
 
-          <div class="content-wrapper">
+         
             <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
@@ -135,7 +135,7 @@
                             </div>
                             <div class="preview-item-content d-sm-flex flex-grow">
                               <div class="flex-grow">
-                                <h6 class="preview-subject">Admin dashboard design</h6>
+                                <h6 class="preview-subject">User dashboard design</h6>
                                 <p class="text-muted mb-0">Broadcast web app mockup</p>
                               </div>
                               <div class="mr-auto text-sm-right pt-2 pt-sm-0">
@@ -314,7 +314,7 @@
                             </td>
                             <td>
                               <img src="assets/images/faces/face1.jpg" alt="image" />
-                              <span class="ps-2">Henry Klein</span>
+                              <span class="ps-2">{{Auth::user()->name}}</span>
                             </td>
                             <td> 02312 </td>
                             <td> $14,500 </td>
@@ -645,7 +645,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+         
           </div>
           <!-- content-wrapper ends -->
           @endsection

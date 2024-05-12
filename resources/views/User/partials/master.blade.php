@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  @include('Admin.layouts.head')
+  @include('User.layouts.head')
 
   <body>
-    <div class="container-scroller">
+    <div class="container-scroller" >
       
       <!-- partial:partials/_sidebar.html -->
-      @include('Admin.partials._sidebar')
+      @include('User.partials._sidebar')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
-       @include('Admin.partials._navbar')
+       @include('User.partials._navbar')
         <!-- partial -->
         <div class="main-panel">
+        <div class="content-wrapper">
           @yield('content')
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
-          @include('Admin.partials._footer')
+          @include('User.partials._footer')
           <!-- partial -->
         </div>
         <!-- main-panel ends -->
@@ -24,7 +25,7 @@
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-    @include('Admin.layouts.scripts')
+    @include('User.layouts.scripts')
 
   </body>
 </html>

@@ -12,7 +12,7 @@
                     {{ __("You're logged in!") }}
                     <br>
                     <br>
-                    {{Auth::guard('admin')->name}}
+                    {{Auth::user()->name}}
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -13,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('user.account');
     }
 
     /**
@@ -78,6 +79,43 @@ class UserController extends Controller
         $user->save();
         Session::flash('success', 'User status updated successfully.');
         return back();
+    }
+
+    public function changeName(User $user)
+    {
+        request()->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $user->name = request()->name;
+        $user->update();
+
+        return back();
+    }
+    public function changePassword(Request $request, User $user)
+    {
+        $request->rules([
+            'password'=> 'required|min:8',
+            'password_confirm'=> 'required|min:8|same:password',
+        ]);
+
+        $user->password = Hash::make(request()->password);
+        $user->update();
+
+        return back()->with('PasswordChanged', 'password Changed Successfully');;
+    }
+
+    public function changeEmail(Request $request, User $user)
+    {
+        $request->rules([
+            'email' => 'required|email|different:current_email|unique:admins,email',
+        ],[],[
+            'email.different'=> 'The new email should be different from the current email.',
+        ]);
+
+        $user->email = $request->email;
+        $user->update();
+
+        return back()->with('EmailChanged', 'Email Changed Successfully');;
     }
 
 }

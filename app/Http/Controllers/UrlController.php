@@ -8,6 +8,8 @@ use App\Models\Url;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
+use function Laravel\Prompts\error;
+
 class UrlController extends Controller
 {
     /**
@@ -18,6 +20,7 @@ class UrlController extends Controller
         if (Auth::guard('admin')->check()) {
             return view('Admin.allUrls');
         } else {
+            return abort(401);
         }
     }
     public function MyUrls()
@@ -25,6 +28,7 @@ class UrlController extends Controller
         if (Auth::guard('admin')->check()) {
             return view('Admin.myUrls');
         } else {
+            return view('User.myUrls');
         }
     }
 
@@ -36,6 +40,7 @@ class UrlController extends Controller
         if (Auth::guard('admin')->check()) {
             return view('Admin.createUrl');
         } else {
+            return view('User.createUrl');
         }
     }
 
@@ -48,7 +53,11 @@ class UrlController extends Controller
         $url = new Url();
 
         $url->origin_url = $request->url;
-        $url->admin_id = Auth::id();
+        if (Auth::guard('admin')->check()) {
+            $url->admin_id = Auth::id();
+        }elseif(Auth::check()){
+            $url->user_id = Auth::id();
+        }
         $url->is_active = true;
         $url->shortened_url_code = base_convert(mt_rand(0, PHP_INT_MAX), 10, 36);
 
@@ -63,9 +72,12 @@ class UrlController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Url $url)
+    public function show($code)
     {
-        //
+        
+        $link = Url::where('shortened_url_code', $code)->first();
+        if($link->is_active) return redirect($link->origin_url);  
+        else abort(401);
     }
 
     /**
@@ -95,7 +107,7 @@ class UrlController extends Controller
     {
         $url->delete();
 
-        Session::flash('success', 'Url Deleted Successfully.');
+        Session::flash('Deleted', 'Url Deleted Successfully.');
 
         return back();
     }

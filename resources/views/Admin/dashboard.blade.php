@@ -314,7 +314,7 @@
                             </td>
                             <td>
                               <img src="assets/images/faces/face1.jpg" alt="image" />
-                              <span class="ps-2">Henry Klein</span>
+                              <span class="ps-2">{{Auth::guard('admin')->user()->name}}</span>
                             </td>
                             <td> 02312 </td>
                             <td> $14,500 </td>

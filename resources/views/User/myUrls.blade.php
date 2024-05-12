@@ -1,19 +1,5 @@
-@extends('Admin.partials.master')
+@extends('User.partials.master')
 @section('content')
-
-
-<div class="form-group mt-5">
-    <form method="POST" action="{{ route('admin.url.store') }}">
-        @csrf
-        <div class="input-group d-flex align-items-center">
-            <input type="text" class="form-control" name="url" placeholder="Enter your url.." aria-label="Enter your url.." aria-describedby="basic-addon2">
-            <div class="input-group-append ms-1">
-                <button class="btn btn-md btn-primary" type="submit">Short</button>
-            </div>
-        </div>
-    </form>
-</div>
-
 
 @if (Session::has('success'))
 <div class="alert alert-success">
@@ -33,14 +19,15 @@
     <span class="mdi mdi-open-in-new open"></span>
     <span class="mdi mdi-close close"></span>
 </div>
+
 @endif
 
 
-
-<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
+<div class="col-lg-12 grid-margin stretch-card"style="height: 100%;" >
+    <div class="card" >
+        <div class="card-body" >
             <h4 class="card-title">My URLs</h4>
+
             <!-- <p class="card-description"> Add class <code>.table-hover</code> -->
             </p>
             <div class="table-responsive">
@@ -57,15 +44,15 @@
                     </thead>
                     <tbody>
                         
-                        @foreach(Auth::guard('admin')->user()->urls as $url)
+                        @foreach(Auth::guard('web')->user()->urls as $url)
                         <tr>
-                            <td>{{$url->admin->name}}</td>
+                            <td>{{Auth::user()->name}}</td>
                             <td><a href="{{$url->origin_url}}" target="_blank">{{$url->origin_url}}</a></td>
                             <!-- <td>{{$url->is_active}}</td> -->
                             <td>{{$url->shortened_url_code}}</td>
                             @if ($url->is_active)
                             <td>
-                                <form method="POST" action="{{route('admin.url.update',$url)}}">
+                                <form method="POST" action="{{route('user.url.update',$url)}}">
                                     @csrf
                                     @method('PUT')
                                         <button type="submit" class="btn btn-primary btn-rounded">active</button>
@@ -73,7 +60,7 @@
                             </td>
                             @else
                             <td>
-                                <form method="POST" action="{{route('admin.url.update',$url)}}">
+                                <form method="POST" action="{{route('user.url.update',$url)}}">
                                 @csrf
                                 @method('PUT')
                                     <button type="submit" class="btn btn-danger btn-rounded">not active</button>
@@ -86,7 +73,7 @@
                             @else
                             <td><label class="badge badge-warning">user</label></td>
                             @endauth
-                            <form method="POST" action="{{route('admin.url.destroy',$url)}}">
+                            <form method="POST" action="{{route('user.url.destroy',$url)}}">
                                 @csrf
                                 @method('DELETE')
                                 <td> <button type="submit" class="btn btn-danger btn-rounded">Delete</button></td>
@@ -105,6 +92,3 @@
 
 <!-- content-wrapper ends -->
 @endsection
-
-
-

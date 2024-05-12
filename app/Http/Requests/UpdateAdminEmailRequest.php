@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAdminRequest extends FormRequest
+class UpdateAdminEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,14 @@ class UpdateAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required|email|different:current_email|unique:admins,email',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'email.different'=> 'The new email should be different from the current email.',
+
         ];
     }
 }

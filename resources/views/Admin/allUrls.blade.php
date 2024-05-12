@@ -34,7 +34,10 @@
                     <tbody>
                         @foreach(App\Models\Url::all() as $url)
                         <tr>
-                            <td>{{$url->admin->name}}</td>
+                            @if ($url->admin) <td>{{$url->admin->name}}</td>
+                            @elseif(!$url->admin && !$url->user) <td>Guest</td>
+                            @else <td>{{$url->user->name}}</td>
+                            @endif
                             <td><a href="{{$url->origin_url}}" target="_blank">{{$url->origin_url}}</a></td>
                             <!-- <td>{{$url->is_active}}</td> -->
                             <td>{{$url->shortened_url_code}}</td>
@@ -56,11 +59,15 @@
                             </td>
                             @endif
 
-                            @auth('admin')
+                            
+                            
+                            @if(!$url->admin && !$url->user) 
+                            <td><label class="badge badge-primary">guest</label></td>
+                            @elseif($url->admin)
                             <td><label class="badge badge-info">admin</label></td>
                             @else
                             <td><label class="badge badge-warning">user</label></td>
-                            @endauth
+                            @endif
                             <form method="POST" action="{{route('admin.url.destroy',$url)}}">
                                 @csrf
                                 @method('DELETE')

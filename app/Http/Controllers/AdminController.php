@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\UpdateAdminEmailRequest;
+use App\Http\Requests\UpdateAdminPassword;
+use App\Http\Requests\UpdateAdminPasswordRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
@@ -14,7 +19,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.account');
     }
 
     /**
@@ -38,7 +43,7 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-        //
+
     }
 
     /**
@@ -46,7 +51,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        //
+        
     }
 
     /**
@@ -56,6 +61,37 @@ class AdminController extends Controller
     {
         //
     }
+
+    public function changeName(Admin $admin)
+    {
+        request()->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $admin->name = request()->name;
+        $admin->update();
+
+        return back();
+    }
+    public function changePassword(UpdateAdminPasswordRequest $request, Admin $admin)
+    {
+        $request->rules();
+
+        $admin->password = Hash::make(request()->password);
+        $admin->update();
+
+        return back()->with('PasswordChanged', 'password Changed Successfully');;
+    }
+
+    public function changeEmail(UpdateAdminEmailRequest $request, Admin $admin)
+    {
+        $request->rules();
+
+        $admin->email = $request->email;
+        $admin->update();
+
+        return back()->with('EmailChanged', 'Email Changed Successfully');;
+    }
+
 
     /**
      * Remove the specified resource from storage.

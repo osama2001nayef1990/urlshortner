@@ -53,12 +53,19 @@ Route::middleware('auth:admin')->name('admin.')->group(function () {
     Route::put('/users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');
     Route::put('/users/{user}/block', [UserController::class, 'deactivate'])->name('users.deactivate');
 
+    Route::resource('account', AdminController::class);
+    Route::put('account/{admin}/change-name', [AdminController::class, 'changeName'])->name('changeName');
+
     Route::get('/all', [AdminController::class, 'AllAdmins'])->name('alladmins');
     Route::put('/{admin}/activate', [AdminController::class, 'activate'])->name('activate');
     Route::put('/{admin}/block', [AdminController::class, 'deactivate'])->name('deactivate');
+    Route::put('password/{admin}/change', [AdminController::class, 'changePassword'])->name('password.change');
+    Route::put('email/{admin}/change', [AdminController::class, 'changeEmail'])->name('email.change');
 
 
     Route::resource('sittings', SittingController::class);
+
+    Route::put('password/{admin}/change-password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');

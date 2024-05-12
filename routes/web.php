@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('su/{code}', [UrlController::class,'show'])->name('link.show');
+
+Route::post('url/create', [UrlController::class,'store'])->name('url.store');
+
 
 
 

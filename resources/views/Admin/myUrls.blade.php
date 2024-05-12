@@ -10,13 +10,26 @@
     <span class="mdi mdi-open-in-new open"></span>
     <span class="mdi mdi-close close"></span>
 </div>
+@elseif(Session::has('Deleted'))
+<div class="alert alert-error">
+    <div class="icon__wrapper">
+        <span class="mdi mdi-alert-outline"></span>
+    </div>
+    <p>{{ Session::get('Deleted') }}</p>
+    <span class="mdi mdi-open-in-new open"></span>
+    <span class="mdi mdi-close close"></span>
+</div>
+
 @endif
 
 
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">My URLs</h4>
+            <div style="display: flex; justify-content: space-between;">
+                <h4 class="card-title">My URLs</h4>
+                <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
+            </div>
             <!-- <p class="card-description"> Add class <code>.table-hover</code> -->
             </p>
             <div class="table-responsive">

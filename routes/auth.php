@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UrlController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -36,11 +38,24 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->name('user.')->group(function () {
     Route::get('/dashboard', function () {
         return view('User.dashboard');
     })->middleware(['verified'])->name('dashboard');
     
+
+
+    Route::resource('url', UrlController::class);
+    Route::get('myUrls', [UrlController::class, 'MyUrls'])->name('url.myUrls');
+
+    Route::resource('account', UserController::class);
+    Route::put('account/{user}/change-name', [UserController::class, 'changeName'])->name('changeName');
+    Route::put('password/{user}/change', [UserController::class, 'changePassword'])->name('password.change');
+    Route::put('email/{user}/change', [UserController::class, 'changeEmail'])->name('email.change');
+
+
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
